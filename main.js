@@ -10,7 +10,7 @@ form.addEventListener('submit', async (event) => {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer <API_KEY>'
+      'Authorization': 'Bearer <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>'
     },
     body: JSON.stringify({
       prompt: message,
