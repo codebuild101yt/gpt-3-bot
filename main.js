@@ -1,32 +1,43 @@
-const form = document.querySelector('form');
-const responseContainer = document.querySelector('.response');
-const maxTokensInput = document.querySelector('input[name="maxTokens"]');
-const numResponsesInput = document.querySelector('input[name="numResponses"]');
-const temperatureInput = document.querySelector('input[name="temperature"]');
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      input: '',
+      response: ''
+    };
+  }
 
-form.addEventListener('submit', async (event) => {
-  event.preventDefault();
-  
-  const message = form.querySelector('textarea').value;
-  const maxTokens = maxTokensInput.value;
-  const numResponses = numResponsesInput.value;
-  const temperature = temperatureInput.value;
-  
-  const response = await fetch(`https://api.openai.com/v1/engines/chat-davinci/jobs`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer API_KEY'
-    },
-    body: JSON.stringify({
-      prompt: message,
-      max_tokens: maxTokens,
-      n: numResponses,
-      temperature: temperature
-    })
-  });
-  
-  const data = await response.json();
-  
-  responseContainer.innerHTML = data.choices[0].text;
-});
+  handleChange = (event) => {
+    this.setState({ input: event.target.value });
+  }
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+    // Make a call to the GPT-3 API to get the response
+    // Replace this with your actual code to get the response from GPT-3
+    const response = "Code a video game";
+    this.setState({ response: response });
+  }
+
+  render() {
+    return (
+      <div class="container">
+        <div class="sidebar">
+          <h1>ChatGPT</h1>
+          <h2>A language model by OpenAI</h2>
+        </div>
+        <form onSubmit={this.handleSubmit}>
+          <div class="input-container">
+            <textarea onChange={this.handleChange} value={this.state.input} />
+            <button type="submit">Submit</button>
+          </div>
+        </form>
+        <div class="response">
+          {this.state.response}
+        </div>
+      </div>
+    );
+  }
+}
+
+ReactDOM.render(<App />, document.getElementById('root'));
