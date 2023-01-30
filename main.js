@@ -1,34 +1,29 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+const form = document.querySelector('form');
+const responseContainer = document.querySelector('.response');
 
-const ChatGPT = () => {
-  const [input, setInput] = useState('');
-  const [response, setResponse] = useState('');
-
-  const handleInputChange = (event) => {
-    setInput(event.target.value);
-  };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const res = await axios.post('https://api.openai.com/v1/engines/text-davinci-002/completions', {
-      prompt: input,
-      max_tokens: 99999,
+form.addEventListener('submit', async (event) => {
+  event.preventDefault();
+  
+  const message = form.querySelector('textarea').value;
+  
+  const response = await fetch('https://api.openai.com/v1/engines/chat-davinci/jobs', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer <API_KEY>'
+    },
+    body: JSON.stringify({
+      prompt: message,
+      max_tokens: 1024,
       n: 1,
-      stop: '',
-    });
-    setResponse(res.data.choices[0].text);
-  };
+      stop: null,
+      temperature: 0.5,
+    })
+  });
+  
+  const json = await response.json();
+  const answer = json.choices[0].text;
+  
+  responseContainer.innerHTML = `<p>${answer}</p>`;
+});
 
-  return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <input type="text" value={input} onChange={handleInputChange} />
-        <button type="submit">Submit</button>
-      </form>
-      <p>Response: {response}</p>
-    </div>
-  );
-};
-
-export default ChatGPT;
