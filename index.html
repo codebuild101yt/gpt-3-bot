@@ -2,36 +2,26 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>ChatGPT Website</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatGPT</title>
+    <link rel="stylesheet" href="style.css">
   </head>
   <body>
     <div class="container">
-      <h1>ChatGPT</h1>
       <div class="sidebar">
-        <h2>Options</h2>
-        <label>
-          Maximum Tokens:
-          <input type="number" min="1" value="1024">
-        </label>
-        <label>
-          Number of Responses:
-          <input type="number" min="1" value="1">
-        </label>
-        <label>
-          Temperature:
-          <input type="number" min="0" max="1" step="0.01" value="0.5">
-        </label>
+        <h1>ChatGPT</h1>
+        <h2>Ask me anything</h2>
       </div>
       <form>
         <div class="input-container">
-          <textarea placeholder="Enter your message here..."></textarea>
+          <textarea id="message" rows="5"></textarea>
           <button type="submit">Submit</button>
         </div>
       </form>
       <div class="response">
-        <p>Response from ChatGPT will appear here...</p>
+        <p>{this.state.response}</p>
       </div>
     </div>
   </body>
 </html>
+
