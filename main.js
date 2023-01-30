@@ -1,29 +1,32 @@
 const form = document.querySelector('form');
 const responseContainer = document.querySelector('.response');
+const maxTokensInput = document.querySelector('input[name="maxTokens"]');
+const numResponsesInput = document.querySelector('input[name="numResponses"]');
+const temperatureInput = document.querySelector('input[name="temperature"]');
 
 form.addEventListener('submit', async (event) => {
   event.preventDefault();
   
   const message = form.querySelector('textarea').value;
+  const maxTokens = maxTokensInput.value;
+  const numResponses = numResponsesInput.value;
+  const temperature = temperatureInput.value;
   
-  const response = await fetch('https://api.openai.com/v1/engines/chat-davinci/jobs', {
+  const response = await fetch(`https://api.openai.com/v1/engines/chat-davinci/jobs`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer <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>'
+      'Authorization': 'Bearer API_KEY'
     },
     body: JSON.stringify({
       prompt: message,
-      max_tokens: 1024,
-      n: 1,
-      stop: null,
-      temperature: 0.5,
+      max_tokens: maxTokens,
+      n: numResponses,
+      temperature: temperature
     })
   });
   
-  const json = await response.json();
-  const answer = json.choices[0].text;
+  const data = await response.json();
   
-  responseContainer.innerHTML = `<p>${answer}</p>`;
+  responseContainer.innerHTML = data.choices[0].text;
 });
-
